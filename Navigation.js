@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Image, Pressable, useColorScheme } from "react-native";
+import { Image, Pressable, useColorScheme, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Search from "./screens/tabScreens/Search";
 import Communities from "./screens/tabScreens/Communities";
@@ -19,6 +19,11 @@ import TweetDetailsScreen from "./screens/homeStack/TweetDetailsScreen";
 import Following from "./screens/tabScreens/Following";
 import "react-native-gesture-handler";
 import CustomDrawerContent from "./components/CustomDrawerContent";
+import Tweets from "./screens/profile/Tweets";
+import Medias from "./screens/profile/Medias";
+import Likes from "./screens/profile/Likes";
+import ProfileTabNavigation from "./screens/profile/ProfileTabNavigation";
+import Profile from "./screens/profile/Profile";
 
 export default function Navigation() {
   const colorScheme = useColorScheme();
@@ -110,7 +115,7 @@ export default function Navigation() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
-      <Drawer.Screen name="Chatbox" component={Chatbox} />
+      <Drawer.Screen name="Profile" component={Profile} />
     </Drawer.Navigator>
   );
 

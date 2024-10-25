@@ -5,6 +5,7 @@ import {
   Pressable,
   SafeAreaView,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
 import { tweets } from "../../data/tweets";

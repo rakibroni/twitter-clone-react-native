@@ -1,12 +1,24 @@
-import { SafeAreaView, Text, Button } from "react-native";
+import {
+  Animated,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 
-function Search({ navigation }) {
+export default function Search() {
   return (
-    <SafeAreaView>
-      <Text>This is Search page</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate("Feed")} />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text>Thia ia search menu</Text>
+    </View>
   );
 }
 
-export default Search;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
