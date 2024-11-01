@@ -1,151 +1,183 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  ListRenderItem,
-  Image,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { Tabs } from "react-native-collapsible-tab-view";
+import React, { useState } from "react";
+import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
+import { TabBar, TabView } from "react-native-tab-view";
 import ImageGrid from "../profile/ImageGrid";
 
-const HEADER_HEIGHT = 300;
+const Communities = () => {
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "first", title: "Posts" },
+    { key: "second", title: "second" },
+    { key: "three", title: "third" },
+    { key: "four", title: "four" },
+    { key: "five", title: "five" },
+    { key: "six", title: "six" },
+    { key: "seven", title: "seven" },
+    { key: "eight", title: "Eight" },
+  ]);
 
-const DATA = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-const identity = (v: unknown): string => v + "";
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [200, 0],
+    extrapolate: "clamp",
+  });
 
-const Header = () => {
-  return (
-    <>
-      <View style={styles.header}>
-        {/* Profile Info */}
-        <View style={styles.profileInfo}>
-          <Image
-            source={require("../../assets/profile-pic.png")}
-            style={styles.profileImage}
-          />
-          <View style={styles.nameSection}>
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.username}>@johndoe</Text>
-          </View>
-          <Text style={styles.bio}>
-            Developer | Tech Enthusiast | Music Lover
-          </Text>
-
-          <View style={styles.followerSection}>
-            <Text style={styles.followText}>
-              <Text style={styles.followNumber}>120</Text> Following
-            </Text>
-            <Text style={styles.followText}>
-              <Text style={styles.followNumber}>450</Text> Followers
-            </Text>
-          </View>
-
-          <TouchableOpacity style={styles.editButton}>
-            <Text style={styles.editButtonText}>Edit Profile</Text>
-          </TouchableOpacity>
+  // Render tab content with an Animated FlatList
+  const renderTabContent = (data) => (
+    <Animated.FlatList
+      data={data}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{item.title}</Text>
         </View>
-      </View>
-    </>
+      )}
+      scrollEventThrottle={16}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        {
+          useNativeDriver: false,
+        }
+      )}
+    />
   );
-};
 
-const Communities: React.FC = () => {
-  const renderItem: ListRenderItem<number> = React.useCallback(({ index }) => {
-    return (
-      <View style={[styles.box, index % 2 === 0 ? styles.boxB : styles.boxA]} />
-    );
-  }, []);
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case "first":
+        return <ImageGrid scrollY={scrollY} />;
+      case "second":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged2 ${index + 1}`,
+          }))
+        );
+      case "three":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged3 ${index + 1}`,
+          }))
+        );
+      case "four":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged4 ${index + 1}`,
+          }))
+        );
+      case "five":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged5 ${index + 1}`,
+          }))
+        );
+      case "six":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged6 ${index + 1}`,
+          }))
+        );
+      case "seven":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged7 ${index + 1}`,
+          }))
+        );
+      case "eight":
+        return renderTabContent(
+          [...Array(20)].map((_, index) => ({
+            id: index,
+            title: `Tagged8 ${index + 1}`,
+          }))
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <Tabs.Container
-      renderHeader={Header}
-      headerHeight={HEADER_HEIGHT} // optional
-    >
-      <Tabs.Tab name="A">
-        <Tabs.FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={identity}
-        />
-      </Tabs.Tab>
-      <Tabs.Tab name="B">
-        <Tabs.ScrollView>
-          <ImageGrid />
-          <ImageGrid />
-        </Tabs.ScrollView>
-      </Tabs.Tab>
-    </Tabs.Container>
+    <View style={styles.container}>
+      {/* Animated Header */}
+      <Animated.View style={[styles.header, { height: headerHeight }]}>
+        <Text style={styles.headerText}>Profile Header</Text>
+      </Animated.View>
+
+      {/* TabView */}
+      <TabView
+        initialLayout={{ width: Dimensions.get("window").width }}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        renderTabBar={(props) => (
+          <TabBar
+            {...props}
+            indicatorStyle={styles.indicator}
+            labelStyle={styles.label}
+            tabStyle={styles.tab} // Add tab styles here
+            style={{ backgroundColor: "#f8f8f8" }}
+            scrollEnabled={true}
+          />
+        )}
+        onIndexChange={setIndex}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  box: {
-    height: 250,
-    width: "100%",
-  },
-  boxA: {
-    backgroundColor: "white",
-  },
-  boxB: {
-    backgroundColor: "#D8D8D8",
+  container: {
+    flex: 1,
   },
   header: {
-    height: HEADER_HEIGHT,
-    width: "100%",
-    backgroundColor: "#2196f3",
+    backgroundColor: "#4285F4",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  nameSection: {
-    marginBottom: 10,
-  },
-  name: {
+  headerText: {
+    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
   },
-  username: {
-    color: "#657786",
+
+  item: {
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+  },
+  itemText: {
     fontSize: 16,
   },
-  bio: {
-    fontSize: 16,
-    color: "#14171A",
-    marginVertical: 10,
-  },
-  followerSection: {
+  info: {
     flexDirection: "row",
-    marginVertical: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    marginTop: 10,
   },
-  followText: {
-    marginRight: 20,
-    fontSize: 16,
-    color: "#657786",
+  label: {
+    color: "black", // Color of the inactive tab label
+    fontSize: 16, // Font size of the tab labels
   },
-  followNumber: {
-    fontWeight: "bold",
-    color: "#14171A",
+  tab: {
+    // Customize tab item styles (width, padding, etc.)
+    width: 100, // Set width for each tab
+    alignItems: "center", // Center the label
   },
-  editButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: "#657786",
-    borderRadius: 20,
-    alignSelf: "flex-start",
-  },
-  editButtonText: {
-    color: "#657786",
-    fontSize: 16,
-  },
-  profileInfo: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
+  indicator: {
+    backgroundColor: "blue", // Color of the active tab indicator
+    height: 1, // Height of the indicator
+    width: 100, // Set a fixed width for the indicator
+    left: 0,
+    right: 0,
+    alignSelf: "center", // Center the indicator horizontally
   },
 });
 

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, FlatList, Image, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  FlatList,
+  Image,
+  StyleSheet,
+  Dimensions,
+  Animated,
+} from "react-native";
 
 // Dummy data with real image URLs
 const dummyImages = [
@@ -72,7 +79,35 @@ const dummyImages = [
     url: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDl8fG5hdHVyZXxlbnwwfHx8fDE2MzAwMDEyNTk&ixlib=rb-1.2.1&q=80&w=400",
   },
   {
+    id: "18",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
     id: "19",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "21",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "21",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "22",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "23",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "24",
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
+  },
+  {
+    id: "25",
     url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNDAzMnwwfDF8c2VhcmNofDF8fGZsb3dlcnxlbnwwfHx8fDE2MzAwMDEzMzE&ixlib=rb-1.2.1&q=80&w=400",
   },
 ];
@@ -80,7 +115,7 @@ const dummyImages = [
 // Get screen width to calculate image size
 const screenWidth = Dimensions.get("window").width;
 
-const ImageGrid = () => {
+const ImageGrid = ({ scrollY }) => {
   // Render each image thumbnail
   const renderItem = ({ item }) => {
     return (
@@ -91,18 +126,22 @@ const ImageGrid = () => {
   };
 
   return (
-    <FlatList
+    <Animated.FlatList
       data={dummyImages}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       numColumns={3} // Display 3 images per row
+      scrollEventThrottle={6}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        { useNativeDriver: false }
+      )}
     />
   );
 };
 
 const styles = StyleSheet.create({
   imageContainer: {
-    flex: 1,
     margin: 5,
   },
   imageThumbnail: {
