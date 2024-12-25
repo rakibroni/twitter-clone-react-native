@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
+  Text,
 } from "react-native";
 import { tweets } from "../../data/tweets";
 import Tweet from "../../components/Tweet"; // Ensure Tweet is wrapped in React.memo

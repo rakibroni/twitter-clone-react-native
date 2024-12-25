@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+} from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import ImageGrid from "../profile/ImageGrid";
 
@@ -9,12 +16,6 @@ const Communities = () => {
   const [routes] = useState([
     { key: "first", title: "Posts" },
     { key: "second", title: "second" },
-    { key: "three", title: "third" },
-    { key: "four", title: "four" },
-    { key: "five", title: "five" },
-    { key: "six", title: "six" },
-    { key: "seven", title: "seven" },
-    { key: "eight", title: "Eight" },
   ]);
 
   const headerHeight = scrollY.interpolate({
@@ -46,7 +47,11 @@ const Communities = () => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
-        return <ImageGrid scrollY={scrollY} />;
+        return (
+          <View className="bg-white">
+            <ImageGrid scrollY={scrollY} />
+          </View>
+        );
       case "second":
         return renderTabContent(
           [...Array(20)].map((_, index) => ({
@@ -54,48 +59,7 @@ const Communities = () => {
             title: `Tagged2 ${index + 1}`,
           }))
         );
-      case "three":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged3 ${index + 1}`,
-          }))
-        );
-      case "four":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged4 ${index + 1}`,
-          }))
-        );
-      case "five":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged5 ${index + 1}`,
-          }))
-        );
-      case "six":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged6 ${index + 1}`,
-          }))
-        );
-      case "seven":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged7 ${index + 1}`,
-          }))
-        );
-      case "eight":
-        return renderTabContent(
-          [...Array(20)].map((_, index) => ({
-            id: index,
-            title: `Tagged8 ${index + 1}`,
-          }))
-        );
+
       default:
         return null;
     }
@@ -105,6 +69,10 @@ const Communities = () => {
     <View style={styles.container}>
       {/* Animated Header */}
       <Animated.View style={[styles.header, { height: headerHeight }]}>
+        <Image
+          source={require("../../assets/cover.jpeg")}
+          style={styles.coverPhoto}
+        />
         <Text style={styles.headerText}>Profile Header</Text>
       </Animated.View>
 
@@ -178,6 +146,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignSelf: "center", // Center the indicator horizontally
+  },
+  coverPhoto: {
+    height: 120,
+    width: Dimensions.get("window").width,
+    resizeMode: "cover",
   },
 });
 

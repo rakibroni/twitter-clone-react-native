@@ -24,6 +24,9 @@ import Medias from "./screens/profile/Medias";
 import Likes from "./screens/profile/Likes";
 import ProfileTabNavigation from "./screens/profile/ProfileTabNavigation";
 import Profile from "./screens/profile/Profile";
+import TwitterProfile from "./screens/profile/TwitterProfile";
+import ProfileScreen from "./screens/tabScreens/ProfileScreen";
+import MyProfile from "./screens/profile/MyProfile";
 
 export default function Navigation() {
   const colorScheme = useColorScheme();
@@ -115,7 +118,7 @@ export default function Navigation() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
-      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="My profile" component={MyProfile} />
     </Drawer.Navigator>
   );
 
@@ -127,6 +130,13 @@ export default function Navigation() {
           fontSize: 14,
           fontWeight: "bold",
           textTransform: "none",
+          textAlign: "center",
+        },
+        tabBarStyle: {
+          justifyContent: "center", // Centers the tab items horizontally
+        },
+        tabBarItemStyle: {
+          width: "auto",
         },
         tabBarIndicatorStyle: { backgroundColor: "#1DA1F2" },
         headerShown: true,

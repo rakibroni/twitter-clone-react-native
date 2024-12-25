@@ -143,6 +143,7 @@ const ImageGrid = ({ scrollY }) => {
 const styles = StyleSheet.create({
   imageContainer: {
     margin: 5,
+    backgroundColor: "white",
   },
   imageThumbnail: {
     width: screenWidth / 3 - 10, // Subtract margin to fit 3 images

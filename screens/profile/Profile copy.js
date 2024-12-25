@@ -1,5 +1,3 @@
-// Profile.js
-import React from "react";
 import {
   Animated,
   Platform,
@@ -10,50 +8,22 @@ import {
   View,
   Image,
 } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import ProfileTabNavigation from "./ProfileTabNavigation";
 
 const headerSectionHeight = 370;
 
-const Tab = createMaterialTopTabNavigator();
+const headerTabs = [
+  {
+    text: "Tab 1",
+  },
+  {
+    text: "Tab 2",
+  },
+  {
+    text: "Tab 3",
+  },
+];
 
-function Tab1() {
-  const data = new Array(100).fill(0);
-  return (
-    <View>
-      {data.map((item, index) => (
-        <View key={index} style={styles.item}>
-          <Text style={styles.itemText}>{item}</Text>
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function Tab2() {
-  return (
-    <View>
-      <Text>Tab 2 Content</Text>
-    </View>
-  );
-}
-
-function Tab3() {
-  return (
-    <View>
-      <Text>Tab 3 Content</Text>
-    </View>
-  );
-}
-
-function ProfileTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Tab1" component={Tab1} />
-      <Tab.Screen name="Tab2" component={Tab2} />
-      <Tab.Screen name="Tab3" component={Tab3} />
-    </Tab.Navigator>
-  );
-}
 const renderHeaderTabs = () => (
   <View style={styles.headerTabView}>
     <ScrollView
@@ -62,7 +32,7 @@ const renderHeaderTabs = () => (
       showsHorizontalScrollIndicator={false}
       scrollEventThrottle={16}
     >
-      <ProfileTabs />
+      <Text>tab menu</Text>
     </ScrollView>
   </View>
 );
@@ -80,7 +50,7 @@ const BodySection = () => {
   );
 };
 
-export default function Profile() {
+export default function Search() {
   const scrollY = new Animated.Value(0);
   const stickyTop = scrollY.interpolate({
     outputRange: [-150, -70],
@@ -133,9 +103,11 @@ export default function Profile() {
               <Text style={styles.editButtonText}>Edit Profile</Text>
             </TouchableOpacity>
           </View>
+          {renderHeaderTabs()}
         </View>
-      </ScrollView>
 
+        <BodySection />
+      </ScrollView>
       <Animated.View
         style={[
           styles.animatedView,
@@ -145,11 +117,12 @@ export default function Profile() {
           },
         ]}
       >
-        <ProfileTabs />
+        {renderHeaderTabs()}
       </Animated.View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
