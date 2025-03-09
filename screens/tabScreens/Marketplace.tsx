@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  Button,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native'
-import { RootState } from '../../store/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from '../../store/counterReducer'
+import { View, Text, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../store/cartSlice'
 
 const { width } = Dimensions.get('window')
 
 const ProductList = () => {
   const [products, setProducts] = useState([])
-  const [cart, setCart] = useState([])
-  const count = useSelector((state: RootState) => state.counter.value)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,8 +16,8 @@ const ProductList = () => {
       .then((data) => setProducts(data))
   }, [])
 
-  const addToCart = (product) => {
-    setCart([...cart, product])
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product))
   }
 
   const renderItem = ({ item }) => (
@@ -38,7 +27,7 @@ const ProductList = () => {
       <Text style={styles.price}>${item.price}</Text>
       <TouchableOpacity
         className="bg-yellow-400  rounded-3xl px-5 py-2 "
-        onPress={() => addToCart(item)}
+        onPress={() => handleAddToCart(item)}
       >
         <Text>Add to cart</Text>
       </TouchableOpacity>
@@ -47,18 +36,7 @@ const ProductList = () => {
 
   return (
     <View style={styles.container}>
-      <View className="p-5">
-        
-        <TouchableOpacity aria-label="Increment value" onPress={() => dispatch(increment())}>
-          <Text>Increment</Text>
-        </TouchableOpacity>
-        <TouchableOpacity aria-label="Increment value" onPress={() => dispatch(decrement())}>
-          <Text>Decrement</Text>
-        </TouchableOpacity>
-        <Text>{count}</Text>
-      </View>
-
-      {/* <FlatList
+      <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) =>
@@ -69,7 +47,7 @@ const ProductList = () => {
             </View>
           ) : null
         }
-      /> */}
+      />
     </View>
   )
 }

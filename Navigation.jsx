@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -22,10 +23,12 @@ import ProfileTabNavigation from './screens/profile/ProfileTabNavigation'
 import Profile from './screens/profile/Profile'
 import TwitterProfile from './screens/profile/TwitterProfile'
 import ProfileScreen from './screens/tabScreens/ProfileScreen'
+import { RootState } from './store/store'
 import MyProfile from './screens/profile/MyProfile'
 
 export default function Navigation() {
   const colorScheme = useColorScheme()
+  const cartItems = useSelector((state: RootState) => state.cart.items)
 
   // Stack, Tab, Drawer, and Top Tab Navigators
   const Stack = createNativeStackNavigator()
@@ -99,7 +102,7 @@ export default function Navigation() {
       <BottomTab.Screen name="Marketplace" component={Marketplace} />
       <BottomTab.Screen name="Communities" component={Communities} />
       <BottomTab.Screen name="Notifications" component={Notifications} />
-      <BottomTab.Screen name="Cart" component={Cart} options={{ tabBarBadge: 3 }} />
+      <BottomTab.Screen name="Cart" component={Cart} options={{ tabBarBadge: cartItems.length }} />
     </BottomTab.Navigator>
   )
 
