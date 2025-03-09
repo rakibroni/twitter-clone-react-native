@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, Image, Button, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Button,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native'
+import { RootState } from '../../store/store'
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from '../../store/counterReducer'
 
 const { width } = Dimensions.get('window')
 
 const ProductList = () => {
   const [products, setProducts] = useState([])
   const [cart, setCart] = useState([])
+  const count = useSelector((state: RootState) => state.counter.value)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -22,15 +36,29 @@ const ProductList = () => {
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.price}>${item.price}</Text>
-      <TouchableOpacity className="bg-yellow-400  rounded-3xl px-5 py-2 " onPress={() => addToCart(item)}>
-        <Text>Add to cart</Text> 
+      <TouchableOpacity
+        className="bg-yellow-400  rounded-3xl px-5 py-2 "
+        onPress={() => addToCart(item)}
+      >
+        <Text>Add to cart</Text>
       </TouchableOpacity>
     </View>
   )
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <View className="p-5">
+        
+        <TouchableOpacity aria-label="Increment value" onPress={() => dispatch(increment())}>
+          <Text>Increment</Text>
+        </TouchableOpacity>
+        <TouchableOpacity aria-label="Increment value" onPress={() => dispatch(decrement())}>
+          <Text>Decrement</Text>
+        </TouchableOpacity>
+        <Text>{count}</Text>
+      </View>
+
+      {/* <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) =>
@@ -41,7 +69,7 @@ const ProductList = () => {
             </View>
           ) : null
         }
-      />
+      /> */}
     </View>
   )
 }

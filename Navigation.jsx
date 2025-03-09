@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import Marketplace from './screens/tabScreens/Marketplace'
 import Communities from './screens/tabScreens/Communities'
 import Notifications from './screens/tabScreens/Notifications'
-import Chatbox from './screens/tabScreens/Chatbox'
+import Cart from './screens/tabScreens/Cart'
 import Feed from './screens/tabScreens/Feed'
 import TweetDetailsScreen from './screens/homeStack/TweetDetailsScreen'
 import Following from './screens/tabScreens/Following'
@@ -68,7 +68,7 @@ export default function Navigation() {
             case 'Notifications':
               iconName = focused ? 'notifications' : 'notifications-outline'
               break
-            case 'Chatbox':
+            case 'Cart':
               iconName = focused ? 'cart' : 'cart-outline'
               break
           }
@@ -99,7 +99,7 @@ export default function Navigation() {
       <BottomTab.Screen name="Marketplace" component={Marketplace} />
       <BottomTab.Screen name="Communities" component={Communities} />
       <BottomTab.Screen name="Notifications" component={Notifications} />
-      <BottomTab.Screen name="Chatbox" component={Chatbox} options={{ tabBarBadge: 3 }} />
+      <BottomTab.Screen name="Cart" component={Cart} options={{ tabBarBadge: 3 }} />
     </BottomTab.Navigator>
   )
 
