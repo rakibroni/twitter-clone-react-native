@@ -28,18 +28,14 @@ const Cart = () => {
       quantity: 1,
       image: 'https://m.media-amazon.com/images/I/61g+McQpg7L._AC_SL1500_.jpg',
     },
-  ])
-
-  // Function to increase quantity
+  ]) 
   const increaseQuantity = (id) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
         product.id === id ? { ...product, quantity: product.quantity + 1 } : product
       )
     )
-  }
-
-  // Function to decrease quantity
+  } 
   const decreaseQuantity = (id) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
